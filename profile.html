@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="profile-page-title" data-lang-key="profile_page_title">Flix.id - Profile</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific styles for the profile page - mostly handled by .profile-page-container */
+        /* Ensure body has no extra padding */
+         body.profile-page-body {
+             padding: 0;
+             margin: 0;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+         }
+         .profile-page-container {
+              /* Already has margin-top: 100px */
+         }
+         /* Adjustments for emoji picker positioning relative to the modal (less likely needed here) */
+         #profile-edit-modal-profile .emoji-picker-dropdown {
+             /* Override potential positioning from main page style */
+             position: absolute !important; /* Ensure it's absolute within the modal content if needed */
+             /* top: auto !important; */ /* Let JS position it */
+             /* bottom: auto !important; */
+             /* left: auto !important; */
+             /* right: auto !important; */
+             background: rgba(255, 255, 255, 0.98) !important; /* Match modal background */
+             border-color: rgba(0,0,0,0.2) !important; /* Match modal borders */
+         }
+    </style>
+</head>
+<body class="profile-page-body">
+    <!-- Header -->
+    <header class="app-header">
+         <div class="logo" id="app-logo-profile">Flix.id</div>
+         <div class="header-right">
+              <!-- Search is not needed on profile page -->
+              <!-- <div class="search-container">...</div> -->
+              <!-- Notifications with Panel -->
+              <div class="notification-container">
+                  <button class="notification-btn" id="notification-btn-profile" data-lang-key="notifications_title" title="Notifications">
+                      <i class="fas fa-bell"></i>
+                      <span class="notification-badge" id="notification-badge-profile">0</span>
+                  </button>
+                  <div id="notification-panel-profile" class="notification-panel">
+                      <h4 data-lang-key="notifications_title">Notifications</h4>
+                      <div id="notifications-list-profile"></div>
+                      <div class="no-notifications" id="no-notifications-message-profile" data-lang-key="no_notifications">No new notifications</div>
+                  </div>
+              </div>
+               <!-- Language Selector -->
+               <div class="language-selector" data-lang-key="language_select_title_profile" title="Language Select">
+                   <select id="language-select-profile">
+                       <option value="en">English</option>
+                       <option value="ru">Русский</option>
+                       <option value="kk">Қазақша</option>
+                   </select>
+               </div>
+              <!-- User Profile -->
+              <div class="user-profile" id="user-profile-toggle-profile">
+                  <img src="https://i.pravatar.cc/40?img=1" alt="User Avatar" class="avatar" id="user-avatar-profile">
+                  <div class="user-info"> <span class="user-name" id="user-name-profile">Guest</span> <span class="user-status" id="user-status-profile">Free</span> </div>
+                  <i class="fas fa-chevron-down"></i>
+                  <div class="account-dropdown" id="account-dropdown-profile">
+                      <ul>
+                          <li><a href="profile.html"><i class="fas fa-user-circle"></i> <span data-lang-key="profile_link">Profile</span></a></li>
+                          <li><button id="edit-profile-btn-profile"><i class="fas fa-edit"></i> <span data-lang-key="edit_profile_btn">Edit Profile</span></button></li>
+                          <li><a><i class="fas fa-cog"></i> <span data-lang-key="settings_link">Settings</span></a></li>
+                          <li><a><i class="fas fa-question-circle"></i> <span data-lang-key="help_link">Help Center</span></a></li>
+                          <li class="divider"></li>
+                          <li><button id="logout-btn-profile"><i class="fas fa-sign-out-alt"></i> <span data-lang-key="logout_btn">Logout</span></button></li>
+                      </ul>
+                  </div>
+              </div>
+         </div>
+     </header>
+     <!-- End Header -->
+
+    <div class="profile-page-container">
+         <!-- Loading -->
+         <div class="loading-overlay" id="loading-overlay"> <div class="loading-spinner"></div> </div>
+
+         <button class="back-button" onclick="window.history.back()" data-lang-key="back_button_title" title="Back"> <i class="fas fa-arrow-left"></i> </button>
+
+        <div class="profile-header">
+            <img src="https://i.pravatar.cc/100?img=1" alt="User Avatar" id="profile-avatar">
+            <div class="profile-info">
+                <h2 id="profile-name">Loading...</h2>
+                <p data-lang-key="profile_status_label">Status: <span id="profile-status">Loading...</span></p> <!-- Added data-lang-key -->
+            </div>
+        </div>
+
+        <section class="profile-section">
+            <h3 id="history-title" data-lang-key="history_title">Watched History</h3>
+            <ul class="history-list" id="history-list">
+                <!-- History items will be populated here -->
+            </ul>
+            <div class="no-history" id="no-history-message" data-lang-key="no_history">No viewing history yet.</div>
+        </section>
+
+        <section class="profile-section">
+             <h3 id="profile-comments-title" data-lang-key="profile_comments_title">My Comments & Replies</h3>
+             <ul class="profile-comments-list" id="profile-comments-list">
+                 <!-- User's comments and replies will be populated here -->
+             </ul>
+             <div class="no-comments-profile" id="no-comments-profile-message" data-lang-key="no_comments_profile">No comments or replies posted yet.</div>
+         </section>
+
+        <section class="profile-section">
+             <h3 id="profile-ratings-title" data-lang-key="profile_ratings_title">My Ratings</h3>
+             <ul class="profile-ratings-list" id="profile-ratings-list">
+                 <!-- User's ratings will be populated here -->
+             </ul>
+             <div class="no-ratings-profile" id="no-ratings-profile-message" data-lang-key="no_ratings_profile">No ratings submitted yet.</div>
+         </section>
+
+    </div>
+
+    <!-- Profile Edit Modal (Duplicated for profile page) -->
+    <div id="profile-edit-modal-profile" class="modal-overlay">
+        <div class="modal-content">
+            <h4 data-lang-key="modal_edit_profile_title">Edit Profile</h4>
+            <div class="avatar-upload-section">
+                 <img src="" alt="Avatar Preview" class="avatar-preview" id="avatar-preview-profile">
+                 <div class="upload-button-wrapper">
+                     <i class="fas fa-upload"></i> <span data-lang-key="modal_upload_avatar">Upload New Avatar</span>
+                     <input type="file" id="avatar-upload-input-profile" accept="image/*">
+                 </div>
+             </div>
+            <label for="edit-name-profile" data-lang-key="modal_nickname_label">Nickname:</label> <!-- Added for attribute -->
+            <input type="text" id="edit-name-profile">
+
+            <h5 data-lang-key="modal_recommended_avatars">Recommended Avatars:</h5>
+             <div class="recommended-avatars-list" id="recommended-avatars-list-profile">
+                 <!-- Recommended avatars will be loaded here -->
+             </div>
+
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancel-profile-edit-profile" data-lang-key="modal_cancel">Cancel</button>
+                <button class="save-btn" id="save-profile-edit-profile" data-lang-key="modal_save">Save</button>
+            </div>
+        </div>
+    </div>
+    <!-- End Profile Edit Modal -->
+
+    <!-- Language Data -->
+    <script id="lang-data-profile" type="application/json">
+        {
+            "en": {
+                "profile_page_title": "Flix.id - Profile",
+                "back_button_title": "Back to previous page",
+                "history_title": "Watched History",
+                "no_history": "No viewing history yet.",
+                "watched_on": "Watched",
+                "profile_comments_title": "My Comments & Replies",
+                "no_comments_profile": "No comments or replies posted yet.",
+                "commented_on": "commented on",
+                "profile_ratings_title": "My Ratings",
+                "no_ratings_profile": "No ratings submitted yet.",
+                "rated": "rated",
+                "modal_edit_profile_title": "Edit Profile",
+                "modal_nickname_label": "Nickname:",
+                "modal_upload_avatar": "Upload New Avatar",
+                "modal_recommended_avatars": "Recommended Avatars:",
+                "modal_cancel": "Cancel",
+                "modal_save": "Save",
+                "alert_enter_profile_info": "Please enter both nickname and select/upload an avatar.",
+                "alert_select_image_file": "Please select a valid image file.",
+                 "notifications_title": "Notifications",
+                 "no_notifications": "No new notifications",
+                 "profile_link": "Profile",
+                 "edit_profile_btn": "Edit Profile",
+                 "settings_link": "Settings",
+                 "help_link": "Help Center",
+                 "logout_btn": "Logout",
+                 "profile_status_label": "Status:",
+                 "alert_profile_updated": "Your profile has been updated!",
+                 "modal_select_avatar": "Select Avatar"
+            },
+            "ru": {
+                "profile_page_title": "Flix.id - Профиль",
+                "back_button_title": "Назад на предыдущую страницу",
+                "history_title": "История просмотров",
+                "no_history": "Истории просмотров пока нет.",
+                "watched_on": "Просмотрено",
+                "profile_comments_title": "Мои комментарии и ответы",
+                "no_comments_profile": "Комментариев или ответов пока нет.",
+                "commented_on": "прокомментировано на",
+                "profile_ratings_title": "Мои оценки",
+                "no_ratings_profile": "Оценок пока нет.",
+                "rated": "оценено",
+                "modal_edit_profile_title": "Редактировать Профиль",
+                "modal_nickname_label": "Никнейм:",
+                "modal_upload_avatar": "Загрузить Аватар",
+                "modal_recommended_avatars": "Рекомендуемые Аватары:",
+                "modal_cancel": "Отмена",
+                "modal_save": "Сохранить",
+                "alert_enter_profile_info": "Пожалуйста, введите никнейм и выберите/загрузите аватар.",
+                "alert_select_image_file": "Пожалуйста, выберите действительный файл изображения.",
+                "notifications_title": "Уведомления",
+                "no_notifications": "Нет новых уведомлений",
+                "profile_link": "Профиль",
+                "edit_profile_btn": "Редактировать Профиль",
+                "settings_link": "Настройки",
+                "help_link": "Справка",
+                "logout_btn": "Выход",
+                "profile_status_label": "Статус:",
+                "alert_profile_updated": "Ваш профиль обновлен!",
+                "modal_select_avatar": "Выбрать Аватар"
+            },
+            "kk": {
+                "profile_page_title": "Flix.id - Профиль",
+                "back_button_title": "Алдыңғы бетке оралу",
+                "history_title": "Көру тарихы",
+                "no_history": "Көру тарихы әлі жоқ.",
+                "watched_on": "Көрілді",
+                "profile_comments_title": "Менің пікірлерім мен жауаптарым",
+                "no_comments_profile": "Әлі пікірлер немесе жауаптар жоқ.",
+                "commented_on": "пікір қалдырылды",
+                "profile_ratings_title": "Менің рейтингтерім",
+                "no_ratings_profile": "Әлі рейтингтер жіберілмеген.",
+                "rated": "бағаланды",
+                "modal_edit_profile_title": "Профильді Өңдеу",
+                "modal_nickname_label": "Лақап ат:",
+                "modal_upload_avatar": "Жаңа Аватар Жүктеу",
+                "modal_recommended_avatars": "Ұсынылатын Аватарлар:",
+                "modal_cancel": "Бас тарту",
+                "modal_save": "Сақтау",
+                "alert_enter_profile_info": "Лақап атты енгізіңіз және аватарды таңдаңыз/жүктеңіз.",
+                "alert_select_image_file": "Дұрыс сурет файлын таңдаңыз.",
+                "notifications_title": "Хабарландырулар",
+                "no_notifications": "Жаңа хабарландырулар жоқ",
+                "profile_link": "Профиль",
+                "edit_profile_btn": "Профильді Өңдеу",
+                "settings_link": "Параметрлер",
+                "help_link": "Анықтама",
+                "logout_btn": "Шығу",
+                "profile_status_label": "Статус:",
+                "alert_profile_updated": "Сіздің профиліңіз жаңартылды!",
+                "modal_select_avatar": "Аватарды таңдау"
+            }
+        }
+    </script>
+
+
+    <script src="shared.js"></script>
+    <script src="data.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

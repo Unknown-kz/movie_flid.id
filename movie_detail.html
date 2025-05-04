@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="detail-page-title" data-lang-key="detail_page_title">Flix.id - Movie Detail</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific styles for detail page - mostly handled by .detail-page-container */
+        /* Ensure body has no extra padding */
+         body.detail-page-body {
+             padding: 0;
+             margin: 0;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+         }
+         .detail-page-container {
+              /* Already has margin-top: 100px */
+         }
+         /* Adjustments for emoji picker positioning relative to the modal */
+         #profile-edit-modal-detail .emoji-picker-dropdown {
+             /* Override potential positioning from main page style */
+             position: absolute !important; /* Ensure it's absolute within the modal content if needed */
+             /* top: auto !important; */ /* Let JS position it */
+             /* bottom: auto !important; */
+             /* left: auto !important; */
+             /* right: auto !important; */
+             background: rgba(255, 255, 255, 0.98) !important; /* Match modal background */
+             border-color: rgba(0,0,0,0.2) !important; /* Match modal borders */
+         }
+    </style>
+</head>
+<body class="detail-page-body">
+    <!-- Header -->
+    <header class="app-header">
+         <div class="logo" id="app-logo-detail">Flix.id</div>
+         <div class="header-right">
+              <!-- Search is not needed on detail page -->
+              <!-- <div class="search-container">...</div> -->
+              <!-- Notifications with Panel -->
+              <div class="notification-container">
+                  <button class="notification-btn" id="notification-btn-detail" data-lang-key="notifications_title" title="Notifications">
+                      <i class="fas fa-bell"></i>
+                      <span class="notification-badge" id="notification-badge-detail">0</span>
+                  </button>
+                  <div id="notification-panel-detail" class="notification-panel">
+                      <h4 data-lang-key="notifications_title">Notifications</h4>
+                      <div id="notifications-list-detail"></div>
+                      <div class="no-notifications" id="no-notifications-message-detail" data-lang-key="no_notifications">No new notifications</div>
+                  </div>
+              </div>
+               <!-- Language Selector -->
+               <div class="language-selector" data-lang-key="language_select_title_detail" title="Language Select">
+                   <select id="language-select-detail">
+                       <option value="en">English</option>
+                       <option value="ru">Русский</option>
+                       <option value="kk">Қазақша</option>
+                   </select>
+               </div>
+              <!-- User Profile -->
+              <div class="user-profile" id="user-profile-toggle-detail">
+                  <img src="https://i.pravatar.cc/40?img=1" alt="User Avatar" class="avatar" id="user-avatar-detail">
+                  <div class="user-info"> <span class="user-name" id="user-name-detail">Guest</span> <span class="user-status" id="user-status-detail">Free</span> </div>
+                  <i class="fas fa-chevron-down"></i>
+                  <div class="account-dropdown" id="account-dropdown-detail">
+                      <ul>
+                          <li><a href="profile.html"><i class="fas fa-user-circle"></i> <span data-lang-key="profile_link">Profile</span></a></li>
+                          <li><button id="edit-profile-btn-detail"><i class="fas fa-edit"></i> <span data-lang-key="edit_profile_btn">Edit Profile</span></button></li>
+                          <li><a><i class="fas fa-cog"></i> <span data-lang-key="settings_link">Settings</span></a></li>
+                          <li><a><i class="fas fa-question-circle"></i> <span data-lang-key="help_link">Help Center</span></a></li>
+                          <li class="divider"></li>
+                          <li><button id="logout-btn-detail"><i class="fas fa-sign-out-alt"></i> <span data-lang-key="logout_btn">Logout</span></button></li>
+                      </ul>
+                  </div>
+              </div>
+         </div>
+     </header>
+     <!-- End Header -->
+
+
+    <div class="detail-page-container">
+        <!-- Loading -->
+        <div class="loading-overlay" id="loading-overlay"> <div class="loading-spinner"></div> </div>
+
+        <!-- Backdrop for effect -->
+        <div class="detail-backdrop" id="detail-backdrop"></div>
+
+        <!-- Back Button -->
+        <button class="back-button" onclick="window.history.back()" data-lang-key="back_button_title" title="Back"> <i class="fas fa-arrow-left"></i> </button>
+
+        <!-- Detail Content -->
+        <div class="detail-main-content">
+            <div class="detail-poster">
+                <img src="" alt="Movie Poster" id="detail-poster-img">
+            </div>
+            <div class="detail-info">
+                <h1 id="detail-title">Loading Title...</h1>
+                 <div class="detail-meta">
+                     <span id="detail-year">Year</span> |
+                     <span id="detail-genre">Genre</span> |
+                     <span id="detail-rating"><i class="fas fa-star"></i> Loading...</span>
+                 </div>
+
+                 <!-- Player Section -->
+                 <div class="player-section">
+                     <div class="player-placeholder" id="player-placeholder">
+                          <i class="fas fa-play-circle"></i>
+                          <!-- The iframe will be inserted here when playing -->
+                     </div>
+                 </div>
+
+                <div class="detail-actions">
+                    <!-- Watchlist Button -->
+                    <button class="watchlist-btn detail-watchlist-btn" id="detail-watchlist-btn" data-movie-id="">
+                         <i class="fas fa-plus"></i>
+                         <!-- Title attribute will be set by JS for translation -->
+                    </button>
+                     <!-- Removed Play Button - PlayerPlaceholder handles it -->
+                    <!-- <a href="#" class="play-button"><i class="fas fa-play"></i> <span data-lang-key="play_button">Play</span></a> -->
+                </div>
+                <p id="detail-description">Loading description...</p>
+
+                <section class="rating-section">
+                     <h4 id="rating-title" data-lang-key="rating_title">Your Rating</h4>
+                     <div class="user-rating">
+                         <label id="rate-this-label" data-lang-key="rate_this_label">Rate this:</label>
+                         <div class="rating-stars" id="user-rating-stars">
+                             <!-- Stars populated by JS -->
+                             <span class="star" data-value="2"><i class="far fa-star"></i></span>
+                             <span class="star" data-value="4"><i class="far fa-star"></i></span>
+                             <span class="star" data-value="6"><i class="far fa-star"></i></span>
+                             <span class="star" data-value="8"><i class="far fa-star"></i></span>
+                             <span class="star" data-value="10"><i class="far fa-star"></i></span>
+                         </div>
+                         <span id="user-rated-value" style="font-size:0.9em; color:var(--star-color);"></span>
+                     </div>
+                 </section>
+
+                <section class="trailers-section">
+                    <h4 id="trailers-title" data-lang-key="trailers_title">Trailers & More</h4>
+                    <div class="trailers-container" id="trailers-container">
+                        <!-- Trailer items will be populated here -->
+                        <div style="color: rgba(240, 240, 240, 0.8); font-size: 0.9em;">Loading trailers...</div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <section class="comments-section">
+            <h4 id="comments-title" data-lang-key="comments_title">Comments</h4>
+            <div class="comment-form">
+                <div class="comment-input-container">
+                    <div class="comment-textarea-wrapper">
+                        <textarea id="comment-input" data-lang-key="comment_placeholder" placeholder="Add a comment..." rows="3"></textarea>
+                        <button class="emoji-button" id="emoji-button" title="Add Emoji">😊</button>
+                        <div id="emoji-picker" class="emoji-picker-dropdown">
+                             <!-- Emojis populate here -->
+                        </div>
+                    </div>
+                     <!-- Hidden input to store parent comment ID for replies -->
+                     <input type="hidden" id="parent-comment-id" value="">
+                     <!-- Cancel Reply Button -->
+                     <button id="cancel-reply-btn" class="cancel-btn" data-lang-key="modal_cancel">Cancel Reply</button>
+                </div>
+                <button id="post-comment-btn" data-lang-key="post_comment_btn">Post Comment</button>
+            </div>
+            <ul class="comments-list" id="comments-list">
+                <!-- Comments will be populated here -->
+            </ul>
+             <div class="no-comments" id="no-comments-message" data-lang-key="no_comments">No comments yet.</div>
+        </section>
+
+    </div><!-- End Detail Page Container -->
+
+    <!-- Profile Edit Modal (Duplicated for detail page) -->
+    <div id="profile-edit-modal-detail" class="modal-overlay">
+        <div class="modal-content">
+            <h4 data-lang-key="modal_edit_profile_title">Edit Profile</h4>
+            <div class="avatar-upload-section">
+                 <img src="" alt="Avatar Preview" class="avatar-preview" id="avatar-preview-detail">
+                 <div class="upload-button-wrapper">
+                     <i class="fas fa-upload"></i> <span data-lang-key="modal_upload_avatar">Upload New Avatar</span>
+                     <input type="file" id="avatar-upload-input-detail" accept="image/*">
+                 </div>
+             </div>
+            <label for="edit-name-detail" data-lang-key="modal_nickname_label">Nickname:</label>
+            <input type="text" id="edit-name-detail">
+
+            <h5 data-lang-key="modal_recommended_avatars">Recommended Avatars:</h5>
+             <div class="recommended-avatars-list" id="recommended-avatars-list-detail">
+                 <!-- Recommended avatars will be loaded here -->
+             </div>
+
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancel-profile-edit-detail" data-lang-key="modal_cancel">Cancel</button>
+                <button class="save-btn" id="save-profile-edit-detail" data-lang-key="modal_save">Save</button>
+            </div>
+        </div>
+    </div>
+    <!-- End Profile Edit Modal -->
+
+
+    <!-- Language Data -->
+    <script id="lang-data-detail" type="application/json">
+        {
+            "en": {
+                "detail_page_title": "Flix.id - Movie Detail",
+                "back_button_title": "Back to previous page",
+                "rating_title": "Your Rating",
+                "rate_this_label": "Rate this:",
+                "trailers_title": "Trailers & More",
+                "comments_title": "Comments",
+                "comment_placeholder": "Add a comment...",
+                "post_comment_btn": "Post Comment",
+                "no_comments": "No comments yet.",
+                "reply_button": "Reply",
+                "replying_to": "Replying to {user}...",
+                "play_trailer_button": "Play Trailer",
+                "details_unavailable": "Details unavailable.",
+                "no_trailers_available": "No trailers available.",
+                "alert_empty_comment": "Please enter a comment.",
+                "add_to_interesting": "Add to Interesting",
+                "remove_from_interesting": "Remove from Interesting",
+                "modal_edit_profile_title": "Edit Profile",
+                "modal_nickname_label": "Nickname:",
+                "modal_upload_avatar": "Upload New Avatar",
+                "modal_recommended_avatars": "Recommended Avatars:",
+                "modal_cancel": "Cancel",
+                "modal_save": "Save",
+                "alert_enter_profile_info": "Please enter both nickname and select/upload an avatar.",
+                "alert_select_image_file": "Please select a valid image file.",
+                 "notifications_title": "Notifications",
+                 "no_notifications": "No new notifications",
+                 "profile_link": "Profile",
+                 "edit_profile_btn": "Edit Profile",
+                 "settings_link": "Settings",
+                 "help_link": "Help Center",
+                 "logout_btn": "Logout",
+                 "alert_profile_updated": "Your profile has been updated!",
+                 "modal_select_avatar": "Select Avatar"
+            },
+            "ru": {
+                "detail_page_title": "Flix.id - Детали Фильма",
+                "back_button_title": "Назад на предыдущую страницу",
+                "rating_title": "Ваш Рейтинг",
+                "rate_this_label": "Оценить:",
+                "trailers_title": "Трейлеры и Другое",
+                "comments_title": "Комментарии",
+                "comment_placeholder": "Добавить комментарий...",
+                "post_comment_btn": "Опубликовать",
+                "no_comments": "Комментариев пока нет.",
+                "reply_button": "Ответить",
+                "replying_to": "Ответ пользователю {user}...",
+                "play_trailer_button": "Смотреть Трейлер",
+                 "details_unavailable": "Детали недоступны.",
+                "no_trailers_available": "Трейлеров нет.",
+                 "alert_empty_comment": "Пожалуйста, введите комментарий.",
+                 "add_to_interesting": "Добавить в Интересные",
+                 "remove_from_interesting": "Удалить из Интересных",
+                 "modal_edit_profile_title": "Редактировать Профиль",
+                 "modal_nickname_label": "Никнейм:",
+                 "modal_upload_avatar": "Загрузить Аватар",
+                 "modal_recommended_avatars": "Рекомендуемые Аватары:",
+                 "modal_cancel": "Отмена",
+                 "modal_save": "Сохранить",
+                 "alert_enter_profile_info": "Пожалуйста, введите никнейм и выберите/загрузите аватар.",
+                 "alert_select_image_file": "Пожалуйста, выберите действительный файл изображения.",
+                 "notifications_title": "Уведомления",
+                 "no_notifications": "Нет новых уведомлений",
+                 "profile_link": "Профиль",
+                 "edit_profile_btn": "Редактировать Профиль",
+                 "settings_link": "Настройки",
+                 "help_link": "Справка",
+                 "logout_btn": "Выход",
+                 "alert_profile_updated": "Ваш профиль обновлен!",
+                 "modal_select_avatar": "Выбрать Аватар"
+            },
+            "kk": {
+                "detail_page_title": "Flix.id - Фильм Деталі",
+                "back_button_title": "Алдыңғы бетке оралу",
+                "rating_title": "Сіздің Рейтингіңіз",
+                "rate_this_label": "Бағалаңыз:",
+                "trailers_title": "Трейлерлер және басқалар",
+                "comments_title": "Пікірлер",
+                "comment_placeholder": "Пікір қосу...",
+                "post_comment_btn": "Пікір жариялау",
+                "no_comments": "Әлі пікірлер жоқ.",
+                "reply_button": "Жауап беру",
+                "replying_to": "{user} пайдаланушыға жауап беру...",
+                "play_trailer_button": "Трейлер ойнату",
+                 "details_unavailable": "Мәліметтер жоқ.",
+                "no_trailers_available": "Трейлерлер жоқ.",
+                 "alert_empty_comment": "Пікір енгізіңіз.",
+                 "add_to_interesting": "Қызықтыға қосу",
+                 "remove_from_interesting": "Қызықтыдан жою",
+                 "modal_edit_profile_title": "Профильді Өңдеу",
+                 "modal_nickname_label": "Лақап ат:",
+                 "modal_upload_avatar": "Жаңа Аватар Жүктеу",
+                 "modal_recommended_avatars": "Ұсынылатын Аватарлар:",
+                 "modal_cancel": "Бас тарту",
+                 "modal_save": "Сақтау",
+                 "alert_enter_profile_info": "Лақап атты енгізіңіз және аватарды таңдаңыз/жүктеңіз.",
+                 "alert_select_image_file": "Дұрыс сурет файлын таңдаңыз.",
+                 "notifications_title": "Хабарландырулар",
+                 "no_notifications": "Жаңа хабарландырулар жоқ",
+                 "profile_link": "Профиль",
+                 "edit_profile_btn": "Профильді Өңдеу",
+                 "settings_link": "Параметрлер",
+                 "help_link": "Анықтама",
+                 "logout_btn": "Шығу",
+                 "alert_profile_updated": "Сіздің профиліңіз жаңартылды!",
+                 "modal_select_avatar": "Аватарды таңдау"
+            }
+        }
+    </script>
+
+    <!-- Link to shared helpers and data -->
+    <script src="shared.js"></script>
+    <script src="data.js"></script>
+    <!-- Link to external JS file for detail page -->
+    <script src="movie_detail.js"></script>
+</body>
+</html>

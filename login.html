@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="login_title">Flix.id - Login</title>
+     <!-- Font Awesome for Icons -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <!-- Google Fonts (Poppins) -->
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific styles for the login page - mostly handled by .login-page-container */
+        /* Keeping this empty as .login-page-container in style.css handles the core layout */
+         body.login-page-body {
+             align-items: center; /* Center form vertically within the flex body */
+             justify-content: center; /* Center form vertically within the flex body */
+             min-height: 100vh; /* Ensure body takes full viewport height for centering */
+         }
+         .login-page-container {
+              margin-top: 0; /* Remove margin-top as body handles vertical alignment */
+         }
+         .login-page-container .logo {
+             font-size: 2.5em;
+             margin-bottom: 30px;
+         }
+         .login-form { /* Specific styles for the form */
+             width: 100%;
+             max-width: 300px; /* Limit form width */
+             margin: 0 auto; /* Center form within container */
+         }
+    </style>
+</head>
+<body class="login-page-body">
+    <div class="login-page-container">
+        <div class="logo">Flix.id</div>
+        <form id="login-form" class="login-form">
+            <div>
+                <label for="username" data-lang-key="login_username_label">Username:</label>
+                <input type="text" id="username" required autocomplete="username">
+            </div>
+            <div>
+                <label for="password" data-lang-key="login_password_label">Password:</label>
+                <input type="password" id="password" required autocomplete="current-password">
+            </div>
+            <button type="submit" data-lang-key="login_button">Enter</button>
+             <p id="login-message"></p>
+        </form>
+    </div>
+
+    <!-- Language Data for Login Page -->
+    <script id="lang-data-login" type="application/json">
+        {
+            "en": {
+                "login_title": "Flix.id - Enter",
+                "login_username_label": "Username:",
+                "login_password_label": "Password:",
+                "login_button": "Enter",
+                "login_message_empty_username": "Please enter a username.",
+                "login_message_invalid_credentials": "Invalid username or password."
+            },
+            "ru": {
+                "login_title": "Flix.id - Войти",
+                "login_username_label": "Имя пользователя:",
+                "login_password_label": "Пароль:",
+                "login_button": "Войти",
+                "login_message_empty_username": "Пожалуйста, введите имя пользователя.",
+                "login_message_invalid_credentials": "Неверное имя пользователя или пароль."
+            },
+            "kk": {
+                "login_title": "Flix.id - Кіру",
+                "login_username_label": "Пайдаланушы аты:",
+                "login_password_label": "Құпия сөз:",
+                "login_button": "Кіру",
+                "login_message_empty_username": "Пайдаланушы атын енгізіңіз.",
+                "login_message_invalid_credentials": "Дұрыс емес пайдаланушы аты немесе құпия сөз."
+            }
+        }
+    </script>
+
+     <script src="shared.js"></script>
+     <script src="login.js"></script>
+</body>
+</html>

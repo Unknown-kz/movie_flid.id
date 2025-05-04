@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="app_title">Flix.id Clone</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="index-page-body">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="logo" id="app-logo">Flix.id</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a id="nav-movie" data-type="movie" class="type-active"><i class="fas fa-film"></i> <span data-lang-key="nav_movie">Movie</span></a></li>
+                <li><a id="nav-series" data-type="series"><i class="fas fa-tv"></i> <span data-lang-key="nav_series">Series</span></a></li>
+            </ul>
+        </nav>
+        <div class="header-right">
+            <!-- Search with Suggestions -->
+            <div class="search-container" id="search-container">
+                 <button class="search-btn" id="search-btn" data-lang-key="search_title" title="Search"><i class="fas fa-search"></i></button>
+                 <input type="text" class="search-input" id="search-input" data-lang-key="search_placeholder" placeholder="Titles, genres..." autocomplete="off">
+                 <div id="search-suggestions"></div>
+            </div>
+            <!-- Notifications with Panel -->
+            <div class="notification-container">
+                <button class="notification-btn" id="notification-btn" data-lang-key="notifications_title" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notification-badge">0</span>
+                </button>
+                <div id="notification-panel" class="notification-panel">
+                    <h4 data-lang-key="notifications_title">Notifications</h4>
+                    <div id="notifications-list"></div>
+                    <div class="no-notifications" id="no-notifications-message" data-lang-key="no_notifications">No new notifications</div>
+                </div>
+            </div>
+             <!-- Language Selector -->
+             <div class="language-selector" data-lang-key="language_select_title" title="Language Select">
+                 <select id="language-select">
+                     <option value="en">English</option>
+                     <option value="ru">Русский</option>
+                     <option value="kk">Қазақша</option>
+                 </select>
+             </div>
+            <!-- User Profile -->
+            <div class="user-profile" id="user-profile-toggle">
+                <img src="https://i.pravatar.cc/40?img=1" alt="User Avatar" class="avatar" id="user-avatar">
+                <div class="user-info"> <span class="user-name" id="user-name">Guest</span> <span class="user-status" id="user-status">Free</span> </div>
+                <i class="fas fa-chevron-down"></i>
+                <div class="account-dropdown" id="account-dropdown">
+                    <ul>
+                        <li><a href="profile.html"><i class="fas fa-user-circle"></i> <span data-lang-key="profile_link">Profile</span></a></li>
+                        <li><button id="edit-profile-btn"><i class="fas fa-edit"></i> <span data-lang-key="edit_profile_btn">Edit Profile</span></button></li>
+                        <li><a><i class="fas fa-cog"></i> <span data-lang-key="settings_link">Settings</span></a></li>
+                        <li><a><i class="fas fa-question-circle"></i> <span data-lang-key="help_link">Help Center</span></a></li>
+                        <li class="divider"></li>
+                        <li><button id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span data-lang-key="logout_btn">Logout</span></button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <div class="main-container">
+        <!-- Loading -->
+        <div class="loading-overlay" id="loading-overlay"> <div class="loading-spinner"></div> </div>
+
+        <!-- Promo Section -->
+        <section class="promo-section">
+            <div class="promo-card" id="promo-card-1"> <div class="promo-content"> <h2 id="promo-title-1" data-lang-key="promo_loading">Loading...</h2> <a href="#" class="play-button promo-play-link" data-movie-id=""><i class="fas fa-play"></i> <span data-lang-key="play_button">Play</span></a> </div> </div>
+            <div class="promo-card" id="promo-card-2"> <div class="promo-content"> <h2 id="promo-title-2" data-lang-key="promo_loading">Loading...</h2> <a href="#" class="play-button promo-play-link" data-movie-id=""><i class="fas fa-play"></i> <span data-lang-key="play_button">Play</span></a> </div> </div>
+        </section>
+
+        <!-- Category Filters -->
+        <section class="category-filters">
+            <button class="filter-btn active" data-category="all"><i class="fas fa-list"></i> <span data-lang-key="filter_all">All</span></button>
+            <button class="filter-btn" data-category="action"><i class="fas fa-bolt"></i> <span data-lang-key="filter_action">Action</span></button>
+            <button class="filter-btn" data-category="romance"><i class="fas fa-heart"></i> <span data-lang-key="filter_romance">Romance</span></button>
+            <button class="filter-btn" data-category="animation"><i class="fas fa-puzzle-piece"></i> <span data-lang-key="filter_animation">Animation</span></button>
+            <button class="filter-btn" data-category="horror"><i class="fas fa-ghost"></i> <span data-lang-key="filter_horror">Horror</span></button>
+            <button class="filter-btn" data-category="fantasy"><i class="fas fa-dragon"></i> <span data-lang-key="filter_fantasy">Fantasy</span></button>
+            <button class="filter-btn" data-category="comedy"><i class="fas fa-laugh"></i> <span data-lang-key="filter_comedy">Comedy</span></button>
+            <button class="filter-btn" data-category="adventure"><i class="fas fa-compass"></i> <span data-lang-key="filter_adventure">Adventure</span></button>
+        </section>
+
+        <!-- Main Content Row -->
+        <section class="content-row" id="main-content-row">
+            <div class="row-header"> <h3 id="row-title">All Movies</h3> <div class="sort-controls"> <label for="sort-movies" data-lang-key="sort_by">Sort by:</label> <select id="sort-movies"> <option value="popular" data-lang-key="sort_popular">Popular</option> <option value="newest" data-lang-key="sort_newest">Newest</option> <option value="rating" data-lang-key="sort_rating">Rating</option> <option value="title_asc" data-lang-key="sort_title_asc">Title (A-Z)</option> <option value="title_desc" data-lang-key="sort_title_desc">Title (Z-A)</option> </select> </div> </div>
+            <div class="row-content" id="movie-grid"> <!-- Movie cards here --> </div>
+        </section>
+
+         <!-- Interesting Movies Row -->
+         <section class="content-row" id="interesting-movies-row">
+             <div class="row-header">
+                 <h3 data-lang-key="interesting_title">Interesting Movies</h3>
+                 <button id="clear-watchlist-btn" data-lang-key="clear_interesting_btn" title="Clear All Interesting Movies" disabled> <i class="fas fa-trash-alt"></i> </button>
+             </div>
+             <div class="row-content" id="interesting-movies-grid"> <!-- Interesting movie cards here --> </div>
+         </section>
+
+    </div><!-- End Main Container -->
+
+    <!-- Profile Edit Modal -->
+    <div id="profile-edit-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h4 data-lang-key="modal_edit_profile_title">Edit Profile</h4>
+            <div class="avatar-upload-section">
+                 <img src="" alt="Avatar Preview" class="avatar-preview" id="avatar-preview">
+                 <div class="upload-button-wrapper">
+                     <i class="fas fa-upload"></i> <span data-lang-key="modal_upload_avatar">Upload New Avatar</span>
+                     <input type="file" id="avatar-upload-input" accept="image/*">
+                 </div>
+             </div>
+            <label for="edit-name" data-lang-key="modal_nickname_label">Nickname:</label>
+            <input type="text" id="edit-name">
+
+            <h5 data-lang-key="modal_recommended_avatars">Recommended Avatars:</h5>
+             <div class="recommended-avatars-list" id="recommended-avatars-list">
+                 <!-- Recommended avatars will be loaded here -->
+             </div>
+
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancel-profile-edit" data-lang-key="modal_cancel">Cancel</button>
+                <button class="save-btn" id="save-profile-edit" data-lang-key="modal_save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Data -->
+    <script id="lang-data" type="application/json">
+        {
+            "en": {
+                "app_title": "Flix.id Clone",
+                "nav_movie": "Movie",
+                "nav_series": "Series",
+                "search_title": "Search",
+                "search_placeholder": "Titles, genres...",
+                "notifications_title": "Notifications",
+                "no_notifications": "No new notifications",
+                "profile_link": "Profile",
+                "edit_profile_btn": "Edit Profile",
+                "settings_link": "Settings",
+                "help_link": "Help Center",
+                "logout_btn": "Logout",
+                "promo_loading": "Loading...",
+                "play_button": "Play",
+                "filter_all": "All",
+                "filter_action": "Action",
+                "filter_romance": "Romance",
+                "filter_animation": "Animation",
+                "filter_horror": "Horror",
+                "filter_fantasy": "Fantasy",
+                "filter_comedy": "Comedy",
+                "filter_adventure": "Adventure",
+                "filter_newest": "Newest",
+                "filter_popular": "Popular",
+                "sort_by": "Sort by:",
+                "sort_popular": "Popular",
+                "sort_newest": "Newest",
+                "sort_rating": "Rating",
+                "sort_title_asc": "Title (A-Z)",
+                "sort_title_desc": "Title (Z-A)",
+                "row_title_all": "All {type}",
+                "row_title_filtered": "{filter} {type}",
+                "interesting_title": "Interesting Movies",
+                "clear_interesting_btn": "Clear All Interesting Movies",
+                "no_movies_found": "No matching titles found.",
+                "add_to_interesting": "Add to Interesting",
+                "remove_from_interesting": "Remove from Interesting",
+                "modal_edit_profile_title": "Edit Profile",
+                "modal_nickname_label": "Nickname:",
+                "modal_upload_avatar": "Upload New Avatar",
+                "modal_recommended_avatars": "Recommended Avatars:",
+                "modal_cancel": "Cancel",
+                "modal_save": "Save",
+                "alert_enter_profile_info": "Please enter both nickname and select/upload an avatar.",
+                "alert_clear_watchlist_confirm": "Are you sure you want to clear all interesting movies?",
+                "alert_settings_not_implemented": "Settings page is not implemented yet!",
+                "alert_help_not_implemented": "Help Center is not implemented yet!",
+                "alert_logout_confirm": "Are you sure you want to log out?",
+                "alert_select_image_file": "Please select a valid image file.",
+                 "alert_clear_watchlist_success": "Your Interesting Movies list has been cleared.",
+                 "alert_profile_updated": "Your profile has been updated!",
+                 "modal_select_avatar": "Select Avatar",
+                 "no_movies_in_category": "No movies available in this category."
+            },
+            "ru": {
+                "app_title": "Клон Flix.id",
+                "nav_movie": "Фильмы",
+                "nav_series": "Сериалы",
+                "search_title": "Поиск",
+                "search_placeholder": "Названия, жанры...",
+                "notifications_title": "Уведомления",
+                "no_notifications": "Нет новых уведомлений",
+                "profile_link": "Профиль",
+                "edit_profile_btn": "Редактировать Профиль",
+                "settings_link": "Настройки",
+                "help_link": "Справка",
+                "logout_btn": "Выход",
+                "promo_loading": "Загрузка...",
+                "play_button": "Смотреть",
+                "filter_all": "Все",
+                "filter_action": "Боевик",
+                "filter_romance": "Романтика",
+                "filter_animation": "Анимация",
+                "filter_horror": "Ужасы",
+                "filter_fantasy": "Фэнтези",
+                "filter_comedy": "Комедия",
+                "filter_adventure": "Приключения",
+                "filter_newest": "Новое",
+                "filter_popular": "Популярное",
+                "sort_by": "Сортировать по:",
+                "sort_popular": "Популярности",
+                "sort_newest": "Новизне",
+                "sort_rating": "Рейтингу",
+                "sort_title_asc": "Названию (А-Я)",
+                "sort_title_desc": "Названию (Я-А)",
+                 "row_title_all": "Все {type}",
+                 "row_title_filtered": "{filter} {type}",
+                "interesting_title": "Интересные Фильмы",
+                "clear_interesting_btn": "Очистить Интересные",
+                "no_movies_found": "Ничего не найдено.",
+                "add_to_interesting": "Добавить в Интересные",
+                "remove_from_interesting": "Удалить из Интересных",
+                "modal_edit_profile_title": "Редактировать Профиль",
+                "modal_nickname_label": "Никнейм:",
+                "modal_upload_avatar": "Загрузить Аватар",
+                "modal_recommended_avatars": "Рекомендуемые Аватары:",
+                "modal_cancel": "Отмена",
+                "modal_save": "Сохранить",
+                "alert_enter_profile_info": "Пожалуйста, введите никнейм и выберите/загрузите аватар.",
+                "alert_select_image_file": "Пожалуйста, выберите действительный файл изображения.",
+                "alert_clear_watchlist_confirm": "Вы уверены, что хотите удалить все интересные фильмы?",
+                "alert_settings_not_implemented": "Страница настроек еще не реализована!",
+                "alert_help_not_implemented": "Раздел справки еще не реализован!",
+                "alert_logout_confirm": "Вы уверены, что хотите выйти?",
+                "alert_clear_watchlist_success": "Ваш список интересных фильмов очищен.",
+                "alert_profile_updated": "Ваш профиль обновлен!",
+                "modal_select_avatar": "Выбрать Аватар",
+                "no_movies_in_category": "В этой категории нет фильмов."
+            },
+            "kk": {
+                "app_title": "Flix.id Клоны",
+                "nav_movie": "Фильмдер",
+                "nav_series": "Сериалдар",
+                "search_title": "Іздеу",
+                "search_placeholder": "Атаулар, жанрлар...",
+                "notifications_title": "Хабарландырулар",
+                "no_notifications": "Жаңа хабарландырулар жоқ",
+                "profile_link": "Профиль",
+                "edit_profile_btn": "Профильді Өңдеу",
+                "settings_link": "Параметрлер",
+                "help_link": "Анықтама",
+                "logout_btn": "Шығу",
+                "promo_loading": "Жүктелуде...",
+                "play_button": "Ойнату",
+                "filter_all": "Барлығы",
+                "filter_action": "Экшн",
+                "filter_romance": "Романтика",
+                "filter_animation": "Анимация",
+                "filter_horror": "Қорқыныш",
+                "filter_fantasy": "Фэнтези",
+                "filter_comedy": "Комедия",
+                "filter_adventure": "Шытырман",
+                "filter_newest": "Жаңа",
+                "filter_popular": "Танымал",
+                "sort_by": "Сұрыптау:",
+                "sort_popular": "Танымалдық бойынша",
+                "sort_newest": "Жаңалық бойынша",
+                "sort_rating": "Рейтинг бойынша",
+                "sort_title_asc": "Атауы бойынша (А-Я)",
+                "sort_title_desc": "Атауы бойынша (Я-А)",
+                 "row_title_all": "Барлық {type}",
+                 "row_title_filtered": "{filter} {type}",
+                "interesting_title": "Қызықты Фильмдер",
+                "clear_interesting_btn": "Барлық Қызықты Фильмдерді Өшіру",
+                "no_movies_found": "Сәйкес атаулар табылмады.",
+                "add_to_interesting": "Қызықтыға қосу",
+                "remove_from_interesting": "Қызықтыдан жою",
+                "modal_edit_profile_title": "Профильді Өңдеу",
+                "modal_nickname_label": "Лақап ат:",
+                "modal_upload_avatar": "Жаңа Аватар Жүктеу",
+                "modal_recommended_avatars": "Ұсынылатын Аватарлар:",
+                "modal_cancel": "Бас тарту",
+                "modal_save": "Сақтау",
+                "alert_enter_profile_info": "Лақап атты енгізіңіз және аватарды таңдаңыз/жүктеңіз.",
+                "alert_select_image_file": "Дұрыс сурет файлын таңдаңыз.",
+                "notifications_title": "Хабарландырулар",
+                "no_notifications": "Жаңа хабарландырулар жоқ",
+                "profile_link": "Профиль",
+                "edit_profile_btn": "Профильді Өңдеу",
+                "settings_link": "Параметрлер",
+                "help_link": "Анықтама",
+                "logout_btn": "Шығу",
+                "alert_profile_updated": "Сіздің профиліңіз жаңартылды!",
+                "modal_select_avatar": "Аватарды таңдау",
+                "no_movies_in_category": "Бұл санатта фильмдер жоқ."
+            }
+        }
+    </script>
+
+    <script src="shared.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
