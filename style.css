@@ -142,10 +142,25 @@ body.login-page-body {
     z-index: 100;
     box-sizing: border-box;
 }
-.logo { font-size: 1.8em; font-weight: 600; color: var(--text-dark); display: inline-block; cursor: pointer; }
+.logo {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: inline-block;
+    cursor: pointer;
+    /* --- MODIFICATION START --- */
+    /* Removed animation styles */
+    /* Removed span specific styles */
+    /* --- MODIFICATION END --- */
+}
+/* --- MODIFICATION START --- */
+/* Removed logo animation keyframes */
+/*
 .logo span { display: inline-block; }
 .logo span.bounce { animation: letterBounce 0.5s ease-out; }
 @keyframes letterBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+*/
+/* --- MODIFICATION END --- */
 
 .main-nav { /* Default style for index page nav */ }
 .main-nav ul { list-style: none; display: flex; background-color: var(--active-nav-bg); border-radius: var(--border-radius-small); padding: 5px; }
@@ -230,7 +245,6 @@ body.login-page-body {
 .notification-item { padding: 8px 5px; font-size: 0.85em; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; transition: background-color 0.2s ease; }
 .notification-item:last-child { border-bottom: none; }
 .notification-item:hover { background-color: rgba(0, 0, 0, 0.03); }
-.notification-item .time { display: block; font-size: 0.8em; color: #666; margin-top: 3px; }
 .no-notifications { text-align: center; color: #777; padding: 20px 0; }
 
 .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; padding: 5px; border-radius: var(--border-radius-small); transition: background-color 0.2s ease; z-index: 10;}
@@ -672,6 +686,9 @@ body.login-page-body {
     z-index: 3;
     display: none; /* Hidden by default */
     color: var(--text-dark);
+    /* Ensure it doesn't overflow the modal */
+    /* This might require more complex positioning or ensuring modal has overflow: hidden */
+    /* For now, rely on JS positioning and viewport bounds */
 }
 .emoji-picker-dropdown span {
     cursor: pointer;
