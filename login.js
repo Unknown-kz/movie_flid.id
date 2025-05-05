@@ -106,8 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const enteredUsername = usernameInput.value.trim();
         const enteredPassword = passwordInput.value; // Get entered password
 
-        // Simulated login check (using dummy credentials)
-        if (enteredUsername === DUMMY_CREDENTIALS.username && enteredPassword === DUMMY_CREDENTIALS.password) {
+        // --- MODIFICATION START ---
+        // Allow login with ANY non-empty username and ANY password.
+        // The original check was: enteredUsername === DUMMY_CREDENTIALS.username && enteredPassword === DUMMY_CREDENTIALS.password
+        // We change the condition to simply check if the username is not empty.
+        if (enteredUsername !== '') {
+        // --- MODIFICATION END ---
+
              saveToLocalStorage(IS_LOGGED_IN_STORAGE_KEY, true);
 
              let userInfo = loadFromLocalStorage(USER_INFO_STORAGE_KEY, DEFAULT_USER_INFO);
@@ -138,11 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         } else {
-             // Update message for invalid credentials
-            loginMessage.textContent = getTranslation('login_message_invalid_credentials');
+             // Update message for empty username
+             // Use the existing 'login_message_empty_username' key if username is empty
+             // Otherwise, the old 'login_message_invalid_credentials' message would still be shown if password check was involved.
+             // Now, the only failure case is an empty username.
+            loginMessage.textContent = getTranslation('login_message_empty_username');
             loginMessage.style.color = 'red';
-            loginMessage.dataset.langKeyMessage = 'login_message_invalid_credentials'; // Store key for language switch
-             console.warn("Invalid login attempt.");
+            loginMessage.dataset.langKeyMessage = 'login_message_empty_username'; // Store key for language switch
+             console.warn("Empty username attempt.");
         }
     });
 
