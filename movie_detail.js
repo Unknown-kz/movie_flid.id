@@ -199,7 +199,7 @@ function renderMovieDetail(movie) {
         // Use applyTranslations for displaying "not found" state
         // applyTranslations called separately after renderMovieDetail
         console.warn("Movie data not found for rendering detail page.");
-        if(detailPageTitle) detailPageTitle.textContent = getTranslation('detail_page_title');
+        if(detailPageTitle) detailPageTitle.textContent = getTranslation('detail_page_title'); // Ensure title is translated even if movie fails
         if(detailTitle) detailTitle.textContent = getTranslation('details_unavailable');
         if(detailYear) detailYear.textContent = "";
         if(detailGenre) detailGenre.textContent = "";
@@ -639,22 +639,9 @@ function renderEmojiPicker() {
     });
 }
 
-function insertEmoji(emoji) {
-    const textarea = commentInput;
-    if (!textarea) { console.warn("Comment textarea not found for emoji insertion."); return; }
-    const start = textarea.selectionStart; // Get cursor position
-    const end = textarea.selectionEnd;
-    const value = textarea.value;
-    // Insert emoji at cursor position
-    textarea.value = value.substring(0, start) + emoji + value.substring(end);
-    // Move cursor after the inserted emoji
-    textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
-    textarea.focus(); // Keep focus on the textarea
-}
-
 function toggleEmojiPicker(event) {
     event.stopPropagation(); // Prevent click from closing picker immediately
-    if (!emojiPicker || !emojiButton) { console.warn("Emoji picker or button not found."); return; }
+    if (!emojiPicker || !emojiButton || !commentInput) { console.warn("Emoji picker, button, or comment input not found."); return; }
 
     // Toggle display state
     const isVisible = emojiPicker.style.display === 'grid';
@@ -869,6 +856,7 @@ function handleAvatarUploadDetail(event) {
  function saveProfileChangesDetail() {
      if (!editNameInputDetail || !avatarPreviewDetail || !profileEditModalDetail) { // Use optional chaining
          console.warn("Profile edit modal elements not found for saving (detail).");
+         alert(getTranslation('alert_enter_profile_info')); // Or a more specific error
          return; // Cannot proceed without required elements
      }
 
