@@ -10,7 +10,7 @@ let currentSort = 'popular';
 let currentMovies = [];
 // Watchlist is loaded from localStorage in DOMContentLoaded
 let watchlist = new Set();
-let logoAnimationInterval;
+// Removed logoAnimationInterval as animation is removed
 let promoAnimationInterval;
 let currentPromoMovieIds = [-1, -1]; // Store IDs instead of indices
 let notifications = []; // Will be loaded from localStorage
@@ -230,8 +230,8 @@ function changeLanguage(event) {
     currentLanguage = event.target.value;
     saveToLocalStorage(LANGUAGE_STORAGE_KEY, currentLanguage);
     applyTranslations();
-    // Re-setup logo animation as text might change (though not in this case)
-    // setupLogoAnimation(); // Logo text is fixed, no need to re-setup
+    // Logo animation is removed, no need to re-setup
+    // setupLogoAnimation();
 }
 
 
@@ -239,6 +239,9 @@ function changeLanguage(event) {
 // function showLoading() { loadingOverlay?.classList.add('visible'); } // Use optional chaining
 // function hideLoading() { setTimeout(() => { loadingOverlay?.classList.remove('visible'); }, 200); } // Use optional chaining
 
+// --- MODIFICATION START ---
+// Removed setupLogoAnimation function as requested
+/*
 function setupLogoAnimation() {
     if (!appLogo) { console.warn("App logo element not found."); return; }
     const logoText = "Flix.id"; // Logo text is fixed regardless of language
@@ -271,6 +274,8 @@ function setupLogoAnimation() {
         bounceNextLetter();
     }, intervalTime);
 }
+*/
+// --- MODIFICATION END ---
 
 
 function startPromoAnimation() {
@@ -1042,7 +1047,8 @@ document.addEventListener('DOMContentLoaded', () => {
      updateInterestingMovies(); // Renders the interesting movies grid
 
      // Setup animations
-     setupLogoAnimation();
+     // Removed call to setupLogoAnimation as requested
+     // setupLogoAnimation();
      startPromoAnimation();
 
      // --- EVENT LISTENERS ---
