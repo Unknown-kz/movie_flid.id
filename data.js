@@ -122,12 +122,13 @@ const moviesData = [
      },
 
      // Adding the second requested video:
+     // Movie: Jah Khalib - В открытый космос (ID 101)
      {
          id: 101, // Use the requested ID
          title: "Jah Khalib - В открытый космос",
          year: 2018,
          rating: 7.2,
-         genre: "Romance", // Based on lyrics
+         genre: "Romance", // Based on lyrics, can also be Pop or Hip-Hop
          categories: ["action", "romance"], // User requested action, lyrics suggest romance
          img: "https://i.ytimg.com/vi/4X_3iNYblwY/maxresdefault.jpg", // Provided poster image
          backdrop: "https://i.ytimg.com/vi/4X_3iNYblwY/maxresdefault.jpg", // Using the same for backdrop
@@ -181,7 +182,7 @@ const moviesData = [
                movie.genre = "Uncategorized"; // Default genre if none provided
           }
           // Ensure type is present, default to 'movie' if missing or invalid
-          if (!movie.type || (movie.type !== 'movie' && movie.type !== 'series')) {
+          if (movie.type !== 'movie' && movie.type !== 'series') {
                movie.type = 'movie';
           }
           // Ensure rating is a number, default to 0 if missing or invalid
